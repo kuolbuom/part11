@@ -42,6 +42,7 @@ module.exports = [
       jest,
     },
     languageOptions: {
+      globals: globals.node,
       ecmaVersion: 2018,
       sourceType: "module",
       parserOptions: {
