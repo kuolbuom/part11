@@ -1,6 +1,6 @@
 import React from 'react'
 import {
-  BrowserRouter as Router,
+  // BrowserRouter as Router,
   Routes,
   Route,
   useMatch,
@@ -45,26 +45,24 @@ const App = () => {
   }
 
   return (
-    <Router>
-      <Routes>
-        <Route
-          exact
-          path="/"
-          element={<PokemonList pokemonList={pokemonList} />}
-        />
-        <Route
-          exact
-          path="/pokemon/:name"
-          element={
-            <PokemonPage
-              pokemonList={pokemonList}
-              previous={previous}
-              next={next}
-            />
-          }
-        />
-      </Routes>
-    </Router>
+    <Routes>
+      <Route
+        exact
+        path="/"
+        element={<PokemonList pokemonList={pokemonList} />}
+      />
+      <Route
+        exact
+        path="/pokemon/:name"
+        element={
+          <PokemonPage
+            pokemonList={pokemonList}
+            previous={previous}
+            next={next}
+          />
+        }
+      />
+    </Routes>
   )
 }
 
