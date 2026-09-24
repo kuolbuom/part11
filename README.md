@@ -17,3 +17,7 @@ Start by running `npm install` inside the project folder
 The application is deployed on Render:
 
 https://part11-1.onrender.com/
+
+## Pull Request CI
+
+This change is used to test the pull request workflow.

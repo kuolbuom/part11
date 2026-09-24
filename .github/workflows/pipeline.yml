@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize]
 
 jobs:
   simple_deployment_pipeline:
@@ -39,8 +42,10 @@ jobs:
           name: playwright-report
           path: playwright-report/
           retention-days: 30
+
       - name: Deploy to Render
-        if: ${{ success() }}
+        if: ${{ github.event_name == 'push' }}
+        # if: ${{ success() }}
         run: curl "$RENDER_DEPLOY_HOOK"
         env:
           RENDER_DEPLOY_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK }}
