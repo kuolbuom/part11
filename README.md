@@ -21,8 +21,6 @@ https://part11-1.onrender.com/
 ## Pull Request CI
 
 This change is used to test the pull request workflow.
-<<<<<<< Updated upstream
-=======
 
 ## Skip tagging and deploy
 
@@ -31,4 +29,3 @@ this is a skipping test
 ## confirmation between normal case and skipping case
 
 CI/CD pipeline tested successfully.
->>>>>>> Stashed changes
