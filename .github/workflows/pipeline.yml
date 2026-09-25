@@ -25,10 +25,10 @@ jobs:
       - name: Check style
         run: npm run eslint
 
-      - name: check build
+      - name: Check build
         run: npm run build
 
-      - name: check the test
+      - name: Check the test
         run: npm run test
 
       - name: Install Playwright Browsers
@@ -50,9 +50,37 @@ jobs:
         env:
           RENDER_DEPLOY_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK }}
 
+      - name: Discord success notification
+        if: ${{ success() && github.event_name == 'push' && !contains(join(github.event.commits.*.message, ' '), '#skip') }}
+        uses: sarisia/actions-status-discord@v1
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          status: Success
+          title: "🚀 New version deployed"
+          description: |
+            Repository: ${{ github.repository }}
+            Branch: ${{ github.ref_name }}
+
+      - name: Discord failure notification
+        if: ${{ failure() }}
+        uses: sarisia/actions-status-discord@v1
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          status: Failure
+          title: "❌ Build failed"
+          description: |
+            Repository: ${{ github.repository }}
+            Branch: ${{ github.ref_name }}
+            Commit: ${{ github.sha }}
+            Commit message: ${{ github.event.head_commit.message }}
+            Author: ${{ github.event.head_commit.author.name }}
+
   tag_release:
     needs: [simple_deployment_pipeline]
+    if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, ' '), '#skip') }}
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout repository
@@ -61,8 +89,7 @@ jobs:
           fetch-depth: 0
 
       - name: Bump version and push tag
-        if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, ' '), '#skip') }}
-        uses: anothrNick/github-tag-action@1.75.0
+        uses: anothrNick/github-tag-action@4ed44965e0db8dab2b466a16da04aec3cc312fd8
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DEFAULT_BUMP: patch
