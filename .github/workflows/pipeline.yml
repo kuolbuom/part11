@@ -56,10 +56,19 @@ jobs:
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
           status: Success
-          title: "🚀 New version deployed"
+          title: "Deployment Successful!"
           description: |
-            Repository: ${{ github.repository }}
-            Branch: ${{ github.ref_name }}
+            A new version deployed to production
+
+            **Deployment Details**
+
+            **Repository:** ${{ github.repository }}
+            **Branch:** ${{ github.ref_name }}
+            **Commit:** ${{ github.sha }}
+            **Message:** ${{ github.event.head_commit.message }}
+            **Author:** ${{ github.event.head_commit.author.name }}
+
+            [View Commit](${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }})
 
       - name: Discord failure notification
         if: ${{ failure() }}
@@ -67,13 +76,22 @@ jobs:
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
           status: Failure
-          title: "❌ Build failed"
+          title: "Build Failed!"
           description: |
-            Repository: ${{ github.repository }}
-            Branch: ${{ github.ref_name }}
-            Commit: ${{ github.sha }}
-            Commit message: ${{ github.event.head_commit.message }}
-            Author: ${{ github.event.head_commit.author.name }}
+            The pipeline encountered an error.
+
+            **Failure Details**
+
+            **Repository:** ${{ github.repository }}
+            **Branch:** ${{ github.ref_name }}
+            **Commit:** ${{ github.sha }}
+            **Message:** ${{ github.event.head_commit.message }}
+            **Author:** ${{ github.event.head_commit.author.name }}
+            **Workflow:** Deployment pipeline
+            **Job:** simple_deployment_pipeline
+
+            [View Commit](${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }})
+            [View Workflow Run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
 
   tag_release:
     needs: [simple_deployment_pipeline]
