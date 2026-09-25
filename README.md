@@ -25,3 +25,7 @@ This change is used to test the pull request workflow.
 ## Skip tagging and deploy
 
 this is a skipping test
+
+## confirmation between normal case and skipping case
+
+CI/CD pipeline tested successfully.
