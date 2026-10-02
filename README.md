@@ -29,3 +29,9 @@ this is a skipping test
 ## confirmation between normal case and skipping case
 
 CI/CD pipeline tested successfully.
+
+## Link to other part11 own repository app
+
+This repository is protected and can be reviewed by Matti Luukkainen only.
+
+https://github.com/kuolbuom/part11-ownpipelin-app
